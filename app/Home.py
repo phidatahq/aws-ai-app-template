@@ -1,11 +1,11 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="ML Apps",
+    page_title="AI Apps",
     page_icon="🚝",
 )
 
-st.markdown("### Select an AI App from the sidebar:")
+st.markdown("### Select an App from the sidebar:")
 st.markdown("1. Querybot: Run Natural Language Queries on your data")
 st.markdown("2. Chatbot: Chat with GPT-3.5 turbo")
 st.markdown("3. Plotting Demo: Plotting a time-series dataset")
