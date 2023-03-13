@@ -49,6 +49,8 @@ The [workspace/dev](workspace/dev) directory contains the resources for the dev 
 phi ws up
 ```
 
+Open [localhost:9095](http://localhost:9095) to view the ML Apps.
+
 If something fails, try running again with debug logs:
 
 ```sh
