@@ -33,10 +33,6 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    @app.get("/ping")
-    async def pong():
-        return {"ping": "pong!"}
-
     return app
 
 
