@@ -171,9 +171,9 @@ def querybot_main():
 #
 # -*- Run the app
 #
-st.markdown("## Run Natural Language Queries on files")
+st.markdown("## Run Natural Language Queries on datasets")
 st.write(
-    """Querybot uses OpenAI, DuckDb and Langchain to run Natural Language Queries on files.
+    """Querybot uses OpenAI, DuckDb and Langchain to run Natural Language Queries on your dataset.
     Read a dataset, ask a question and it will respond.
     """
 )

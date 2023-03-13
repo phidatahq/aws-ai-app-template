@@ -1,4 +1,4 @@
-from os import getenv
+import os
 from typing import Optional, List, Dict
 
 import openai
@@ -6,15 +6,27 @@ import streamlit as st
 from streamlit_chat import message
 
 #
-# -*- Get OpenAI API key
+# -*- Create Sidebar
 #
-# Get OpenAI API key from environment variable
-openai_api_key: Optional[str] = getenv("OPENAI_API_KEY")
-# If not found, get it from user input
-if openai_api_key is None:
-    text = "Enter OpenAI API key"
-    st.text_input("Enter Openai API key", value=text, key="api_key")
-    openai_api_key = text
+def chatbot_sidebar():
+    st.sidebar.markdown("## Chatbot Settings")
+
+    # Get OpenAI API key from environment variable
+    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
+    # If not found, get it from user input
+    if OPENAI_API_KEY is None:
+        api_key = st.sidebar.text_input("OpenAI API key", value="sk-***", key="api_key")
+        if api_key != "sk-***":
+            OPENAI_API_KEY = api_key
+    # Store it in session state and environment variable
+    if OPENAI_API_KEY is not None:
+        st.session_state["OPENAI_API_KEY"] = OPENAI_API_KEY
+        os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("## Chatbot Status")
+    if "OPENAI_API_KEY" in st.session_state:
+        st.sidebar.markdown("🔑  OpenAI API key set")
 
 
 def generate_response(messages: List[Dict[str, str]]) -> str:
@@ -30,7 +42,10 @@ def generate_response(messages: List[Dict[str, str]]) -> str:
     return response
 
 
-def chatbot_demo():
+#
+# -*- Create Main Page
+#
+def chatbot_main():
     # Create session variable to store the chat
     if "all_messages" not in st.session_state:
         st.session_state["all_messages"] = [
@@ -54,9 +69,11 @@ def chatbot_demo():
             elif msg["role"] == "assistant":
                 message(msg["content"])
 
-
+#
+# -*- Run the app
+#
 st.markdown("# Chatting with GPT-3.5 Turbo")
 st.write("This is a chatbot built using OpenAI. Send it a message and it will respond.")
 
-st.sidebar.header("Chatbot Demo")
-chatbot_demo()
+chatbot_sidebar()
+chatbot_main()
