@@ -8,7 +8,7 @@ from workspace.settings import ws_settings
 # -*- Dev Docker resources
 #
 
-# -*- ML App Image
+# -*- Dev AI App Image
 dev_app_image = DockerImage(
     name=f"{ws_settings.image_repo}/{ws_settings.ws_name}",
     tag=ws_settings.dev_env,
@@ -23,7 +23,7 @@ dev_app_image = DockerImage(
 
 # -*- App Server running Streamlit on port 9095
 dev_app_server = AppServer(
-    name=f"{ws_settings.ws_name}-app",
+    name=ws_settings.ws_name,
     enabled=ws_settings.dev_app_enabled,
     image=dev_app_image,
     mount_workspace=True,

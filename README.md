@@ -1,6 +1,6 @@
-## ML Application Server
+## AI App Server
 
-This repo contains the code for running an ML Application in 2 environments:
+This repo contains the code for running an AI App in 2 environments:
 
 1. dev: A development env running on docker
 2. prd: A production env running on AWS ECS
@@ -10,8 +10,8 @@ This repo contains the code for running an ML Application in 2 environments:
 1. Create + activate a virtual env:
 
 ```sh
-python3 -m venv ~/.venvs/mlenv
-source ~/.venvs/mlenv/bin/activate
+python3 -m venv ~/.venvs/aienv
+source ~/.venvs/aienv/bin/activate
 ```
 
 2. Install + init `phidata`:
@@ -21,7 +21,7 @@ pip install phidata
 phi init -l
 ```
 
-> from the `ml-app` dir:
+> from the `ai-app` dir:
 
 3. Setup workspace:
 
@@ -41,7 +41,7 @@ Optional: Create `.env` file:
 cp example.env .env
 ```
 
-## Run ML App locally using docker
+## Run AI App locally using docker
 
 The [workspace/dev](workspace/dev) directory contains the resources for the dev environment. Install [docker desktop](https://www.docker.com/products/docker-desktop) and run dev resources using:
 
@@ -49,7 +49,7 @@ The [workspace/dev](workspace/dev) directory contains the resources for the dev 
 phi ws up
 ```
 
-Open [localhost:9095](http://localhost:9095) to view the ML Apps.
+Open [localhost:9095](http://localhost:9095) to view the AI App.
 
 If something fails, try running again with debug logs:
 

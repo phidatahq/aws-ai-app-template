@@ -7,7 +7,7 @@ from phidata.workspace.settings import WorkspaceSettings
 #
 ws_settings = WorkspaceSettings(
     # Workspace name: used for naming cloud resources
-    ws_name="ml001",
+    ws_name="ai-app",
     # Path to the workspace root
     ws_root=Path(__file__).parent.parent.resolve(),
     # -*- Dev settings
@@ -21,7 +21,6 @@ ws_settings = WorkspaceSettings(
     # -*- Production Apps
     prd_app_enabled=True,
     prd_api_enabled=True,
-    prd_jupyter_enabled=True,
     # -*- AWS settings
     # Region for AWS resources
     aws_region="us-east-1",

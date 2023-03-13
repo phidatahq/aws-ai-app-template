@@ -5,8 +5,8 @@
 # Install python dependencies. Run this inside a virtual env.
 # Usage:
 # 1. Create + activate virtual env using:
-#     python3 -m venv ~/.venvs/mlenv
-#     source ~/.venvs/mlenv/bin/activate
+#     python3 -m venv ~/.venvs/aienv
+#     source ~/.venvs/aienv/bin/activate
 # 2. Install workspace and dependencies:
 #     ./scripts/install.sh
 ############################################################################

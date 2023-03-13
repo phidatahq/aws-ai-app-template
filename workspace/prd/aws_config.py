@@ -11,7 +11,7 @@ from workspace.prd.docker_config import prd_app_image
 from workspace.settings import ws_settings
 
 #
-# -*- Production AWS resources
+# -*- Production AWS Resources for running the AI App
 #
 
 # -*- Create ECS cluster for running containers
@@ -22,13 +22,10 @@ prd_ecs_cluster = EcsCluster(
     capacity_providers=[launch_type],
 )
 
-#
-# -*- AWS Resources for App Server running Streamlit
-#
-# -*- App Container running Streamlit on ECS
+# -*- AI App Container running Streamlit on ECS
 app_container_port = 9095
 prd_app_container = EcsContainer(
-    name=f"{ws_settings.ws_name}-app",
+    name=ws_settings.ws_name,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": app_container_port}],
     command=["app start"],
@@ -45,6 +42,7 @@ prd_app_container = EcsContainer(
         },
     },
 )
+
 # -*- App Task Definition
 prd_app_task_definition = EcsTaskDefinition(
     name=f"{ws_settings.prd_key}-td",
@@ -55,6 +53,7 @@ prd_app_task_definition = EcsTaskDefinition(
     containers=[prd_app_container],
     requires_compatibilities=[launch_type],
 )
+
 # -*- App Service
 prd_app_service = EcsService(
     name=f"{ws_settings.prd_key}-service",
@@ -71,6 +70,7 @@ prd_app_service = EcsService(
         }
     },
 )
+
 # -*- AwsResourceGroup
 app_aws_rg = AwsResourceGroup(
     name=f"{ws_settings.ws_name}-app",
@@ -80,9 +80,6 @@ app_aws_rg = AwsResourceGroup(
     ecs_services=[prd_app_service],
 )
 
-#
-# -*- AWS Resources for Api Server running FastAPI
-#
 # -*- Api Container running FastAPI on ECS
 api_container_port = 9090
 prd_api_container = EcsContainer(
@@ -103,6 +100,7 @@ prd_api_container = EcsContainer(
         },
     },
 )
+
 # -*- Api Task Definition
 prd_api_task_definition = EcsTaskDefinition(
     name=f"{ws_settings.prd_key}-td",
@@ -113,6 +111,7 @@ prd_api_task_definition = EcsTaskDefinition(
     containers=[prd_api_container],
     requires_compatibilities=[launch_type],
 )
+
 # -*- Api Service
 prd_api_service = EcsService(
     name=f"{ws_settings.prd_key}-service",
@@ -129,6 +128,7 @@ prd_api_service = EcsService(
         }
     },
 )
+
 # -*- AwsResourceGroup
 api_aws_rg = AwsResourceGroup(
     name=f"{ws_settings.ws_name}-api",
