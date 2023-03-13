@@ -14,13 +14,13 @@ ws_settings = WorkspaceSettings(
     dev_env="dev",
     # -*- Dev Apps
     dev_app_enabled=True,
-    dev_api_enabled=True,
+    # dev_api_enabled=True,
     dev_jupyter_enabled=True,
     # -*- Production settings
     prd_env="prd",
     # -*- Production Apps
     prd_app_enabled=True,
-    prd_api_enabled=True,
+    # prd_api_enabled=True,
     # -*- AWS settings
     # Region for AWS resources
     aws_region="us-east-1",
@@ -36,7 +36,7 @@ ws_settings = WorkspaceSettings(
     # Repository for images
     # image_repo="your-repo",
     # Build images locally
-    build_images=True,
+    # build_images=True,
     # Push images after building
     # push_images=True,
     # Skip cache when building images
