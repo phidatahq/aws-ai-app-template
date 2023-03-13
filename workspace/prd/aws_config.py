@@ -87,7 +87,6 @@ app_aws_rg = AwsResourceGroup(
 api_container_port = 9090
 prd_api_container = EcsContainer(
     name=f"{ws_settings.ws_name}-api",
-    enabled=ws_settings.prd_app_enabled,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": api_container_port}],
     command=["api start"],

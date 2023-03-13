@@ -18,7 +18,7 @@ class ApiSettings(BaseSettings):
     runtime: str = "dev"
 
     # Api secret key derived from the `secret_key` environment variable.
-    secret_key: Optional[str]
+    secret_key: Optional[str] = None
 
     # Set to False to disable docs server at /docs and /redoc
     docs_enabled: bool = True

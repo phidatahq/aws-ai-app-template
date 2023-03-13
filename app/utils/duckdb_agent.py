@@ -16,7 +16,7 @@ def create_duckdb_llm_agent(duckdb_connection: duckdb.DuckDBPyConnection):
     An action can either be using a tool and observing its output, or returning to the user.
     """
     # First, load the language model we're going to use to control the agent.
-    llm = OpenAIChat(model_name="gpt-3.5-turbo", temperature=0)
+    llm = OpenAIChat(model_name="gpt-3.5-turbo", temperature=0)  # type: ignore
 
     # Next, load tools that the agent can use to answer questions.
     llm_math_chain = LLMMathChain(llm=llm, verbose=True)

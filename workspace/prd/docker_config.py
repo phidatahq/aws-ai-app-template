@@ -6,7 +6,7 @@ from workspace.settings import ws_settings
 # -*- Production Docker resources
 #
 
-# -*- ML App Image
+# -*- Prd App Image
 prd_app_image = DockerImage(
     name=f"{ws_settings.image_repo}/{ws_settings.ws_name}",
     tag=ws_settings.prd_env,
