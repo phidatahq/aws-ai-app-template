@@ -7,7 +7,7 @@ import yfinance as yf
 import streamlit as st
 
 from prophet import Prophet
-from streamlit_chat import message
+from streamlit.hello.utils import show_code
 
 from workspace.settings import ws_settings
 
@@ -128,3 +128,8 @@ def create_main_page():
 #
 create_sidebar()
 create_main_page()
+
+if st.sidebar.button("Show Code"):
+
+    st.write("## Training Code")
+    show_code(train)
