@@ -53,6 +53,18 @@ def querybot_sidebar():
         s3_data_path = selected_s3_path
     st.session_state["s3_data_path"] = s3_data_path
 
+    duckdb_connection = st.session_state.get("duckdb_connection", None)
+    if st.sidebar.button("Read Data"):
+        if duckdb_connection is None:
+            # Create a duckdb connection
+            if "duckdb_connection" not in st.session_state:
+                duckdb_connection = create_duckdb_conn()
+                st.session_state["duckdb_connection"] = duckdb_connection
+
+        # Load data into duckdb
+        if duckdb_connection is not None and s3_data_path is not None:
+            st.session_state["executed_queries"] = load_s3_path(duckdb_connection, s3_data_path)
+
     st.sidebar.markdown("---")
     st.sidebar.markdown("## Querybot Status")
     if "OPENAI_API_KEY" in st.session_state:
@@ -75,20 +87,7 @@ def querybot_sidebar():
 def querybot_main():
     st.markdown("---")
 
-    # Load data from S3 into duckdb
     duckdb_connection = st.session_state.get("duckdb_connection", None)
-    s3_data_path = st.session_state.get("s3_data_path", None)
-    executed_queries = None
-    if st.button("Read Data"):
-        if duckdb_connection is None:
-            # Create a duckdb connection
-            if "duckdb_connection" not in st.session_state:
-                duckdb_connection = create_duckdb_conn()
-                st.session_state["duckdb_connection"] = duckdb_connection
-
-        # Load data into duckdb
-        if duckdb_connection is not None and s3_data_path is not None:
-            executed_queries = load_s3_path(duckdb_connection, s3_data_path)
 
     # Check if table is loaded
     table_name = st.session_state.get("table_name")
@@ -114,7 +113,7 @@ def querybot_main():
                 "content": f"""
                 Startup SQL Queries:
                 ```
-                {executed_queries}
+                {st.session_state["executed_queries"]}
                 ```
             """,
             }
