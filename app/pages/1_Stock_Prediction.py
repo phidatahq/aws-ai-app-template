@@ -125,7 +125,7 @@ def create_main_page():
     _predicted_days = prediction_result.tail(st.session_state["selected_days"]).to_dict(
         "records"
     )
-    _predictions_dict = {"ds": [], "predicte_price": []}
+    _predictions_dict = {"ds": [], "predicted_price": []}
     for row in _predicted_days:
         _predictions_dict["ds"].append(row["ds"].strftime("%m/%d/%Y"))
         _predictions_dict["predicted_price"].append(row["yhat"])
