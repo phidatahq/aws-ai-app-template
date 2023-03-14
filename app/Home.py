@@ -6,9 +6,10 @@ st.set_page_config(
 )
 
 st.markdown("### Select an App from the sidebar:")
-st.markdown("1. Querybot: Run Natural Language Queries on your data")
-st.markdown("2. Chatbot: Chat with GPT-3.5 turbo")
-st.markdown("3. Plotting Demo: Plotting a time-series dataset")
+st.markdown("1. Stock Prediction: Predict stock price using time series forecasting")
+st.markdown("2. Querybot: Run Natural Language Queries on your data")
+st.markdown("3. Chatbot: Chat with GPT-3.5 turbo")
+st.markdown("4. Plotting Demo: Plotting a time-series dataset")
 st.markdown("\n")
 st.markdown(
     "- built with [Streamlit](https://streamlit.io), [FastAPI](https://fastapi.tiangolo.com) and [Phidata](https://phidata.com)"  # noqa: E501

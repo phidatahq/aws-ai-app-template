@@ -30,6 +30,7 @@ dependencies = [
   "streamlit",
   "scikit-learn",
   "streamlit-chat",
+  "yfinance",
   # Libraries for Api server
   "fastapi",
   "typer",
