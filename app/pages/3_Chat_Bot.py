@@ -5,6 +5,7 @@ import openai
 import streamlit as st
 from streamlit_chat import message
 
+
 #
 # -*- Create Sidebar
 #
@@ -68,6 +69,7 @@ def chatbot_main():
                 message(msg["content"], is_user=True)
             elif msg["role"] == "assistant":
                 message(msg["content"])
+
 
 #
 # -*- Run the app

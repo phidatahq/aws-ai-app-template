@@ -63,7 +63,9 @@ def querybot_sidebar():
 
         # Load data into duckdb
         if duckdb_connection is not None and s3_data_path is not None:
-            st.session_state["executed_queries"] = load_s3_path(duckdb_connection, s3_data_path)
+            st.session_state["executed_queries"] = load_s3_path(
+                duckdb_connection, s3_data_path
+            )
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("## Querybot Status")

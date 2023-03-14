@@ -48,7 +48,10 @@ def predict(ticker: str = DEFAULT_TICKER, days: int = DEFAULT_DAYS_TO_PREDICT):
     model = joblib.load(model_file)
     future = TODAY + datetime.timedelta(days=days)
 
-    dates = pd.date_range(start="2020-01-01", end=future.strftime("%m/%d/%Y"),)
+    dates = pd.date_range(
+        start="2020-01-01",
+        end=future.strftime("%m/%d/%Y"),
+    )
     df = pd.DataFrame({"ds": dates})
 
     forecast = model.predict(df)
@@ -65,7 +68,9 @@ def create_sidebar():
 
     st.sidebar.markdown("### Select a ticker")
     selected_ticker = st.sidebar.text_input("Ticker", DEFAULT_TICKER)
-    selected_days = st.sidebar.slider("Days to predict", 1, 365, DEFAULT_DAYS_TO_PREDICT)
+    selected_days = st.sidebar.slider(
+        "Days to predict", 1, 365, DEFAULT_DAYS_TO_PREDICT
+    )
     # store session state
     st.session_state["selected_ticker"] = selected_ticker
     st.session_state["selected_days"] = selected_days
@@ -87,9 +92,13 @@ def create_sidebar():
 #
 def create_main_page():
     st.markdown("## Predict stock price using time series forecasting")
-    st.write("This app uses [Prophet](https://facebook.github.io/prophet/) to predict stock price.")
+    st.write(
+        "This app uses [Prophet](https://facebook.github.io/prophet/) to predict stock price."
+    )
     st.write("1. Train a model for the ticker using the button in the sidebar")
-    st.write("2. Predict the stock price for the next 21 days using the button in the sidebar")
+    st.write(
+        "2. Predict the stock price for the next 21 days using the button in the sidebar"
+    )
     st.markdown("---")
 
     model_trained = st.session_state.get("model_trained", False)
@@ -113,11 +122,13 @@ def create_main_page():
     if model_plot is not None:
         st.write(st.session_state["model_plot"])
 
-    _predicted_days = prediction_result.tail(st.session_state["selected_days"]).to_dict("records")
+    _predicted_days = prediction_result.tail(st.session_state["selected_days"]).to_dict(
+        "records"
+    )
     _predictions_dict = {"ds": [], "predicte_price": []}
     for row in _predicted_days:
         _predictions_dict["ds"].append(row["ds"].strftime("%m/%d/%Y"))
-        _predictions_dict["predicte_price"].append(row["trend"])
+        _predictions_dict["predicted_price"].append(row["yhat"])
 
     _predictions_df = pd.DataFrame.from_dict(_predictions_dict)
     st.table(_predictions_df)
@@ -130,6 +141,5 @@ create_sidebar()
 create_main_page()
 
 if st.sidebar.button("Show Code"):
-
     st.write("## Training Code")
     show_code(train)
