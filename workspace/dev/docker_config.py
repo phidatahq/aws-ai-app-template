@@ -23,7 +23,7 @@ dev_app_image = DockerImage(
 
 # -*- App Server running Streamlit on port 9095
 dev_app_server = AppServer(
-    name=ws_settings.ws_name,
+    name=f"{ws_settings.ws_name}-app",
     enabled=ws_settings.dev_app_enabled,
     image=dev_app_image,
     command="app start Home",
