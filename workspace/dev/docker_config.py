@@ -1,3 +1,5 @@
+from os import getenv
+
 from phidata.app.server import AppServer, ApiServer
 from phidata.docker.config import DockerConfig, DockerImage
 
@@ -28,6 +30,8 @@ dev_app_server = AppServer(
     image=dev_app_image,
     command="app start Home",
     mount_workspace=True,
+    # Get the OpenAI API key from the environment if available
+    env={"OPENAI_API_KEY": getenv("OPENAI_API_KEY")},
     use_cache=ws_settings.use_cache,
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/app_secrets.yml"),
 )
@@ -39,6 +43,8 @@ dev_api_server = ApiServer(
     image=dev_app_image,
     command="api start -r",
     mount_workspace=True,
+    # Get the OpenAI API key from the environment if available
+    env={"OPENAI_API_KEY": getenv("OPENAI_API_KEY")},
     use_cache=ws_settings.use_cache,
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/api_secrets.yml"),
 )
