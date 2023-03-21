@@ -29,7 +29,7 @@ ws_settings = WorkspaceSettings(
     aws_az2="us-east-1b",
     # aws_az3="us-east-1c",
     # Subnet IDs for AWS resources
-    subnet_ids=["subnet-01ab7c93434ccf77b", "subnet-042d1ef1228b2fa6a"],
+    # subnet_ids=None,
     # Security Groups for AWS resources
     # security_groups=None,
     # -*- Image Settings
