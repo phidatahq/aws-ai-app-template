@@ -31,7 +31,7 @@ prd_app_container = EcsContainer(
     name=app_key,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": app_container_port}],
-    command=["app start Home"],
+    # command=["app start Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
     ],
@@ -71,6 +71,10 @@ prd_app_service = EcsService(
             "assignPublicIp": "ENABLED",
         }
     },
+    # Force delete the service.
+    force_delete=True,
+    # Force a new deployment of the service on update.
+    force_new_deployment=True,
 )
 
 # -*- AI App AwsResourceGroup

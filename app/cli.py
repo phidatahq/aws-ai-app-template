@@ -24,8 +24,8 @@ def start(
 
     \b
     Examples:
-    * `app start`         -> Start ml/Home.py
-    * `app start base`    -> Start ml/base.py
+    * `app start`         -> Start app/Home.py
+    * `app start base`    -> Start app/base.py
     """
     import sys
     import streamlit.web.cli as stcli
