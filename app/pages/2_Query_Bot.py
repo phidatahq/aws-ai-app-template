@@ -30,6 +30,9 @@ def querybot_sidebar():
         api_key = st.sidebar.text_input("OpenAI API key", value="sk-***", key="api_key")
         if api_key != "sk-***":
             OPENAI_API_KEY = api_key
+            st.session_state["OPENAI_API_KEY"] = OPENAI_API_KEY
+            os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
     # Store it in session state and environment variable
     if OPENAI_API_KEY is not None:
         st.session_state["OPENAI_API_KEY"] = OPENAI_API_KEY
