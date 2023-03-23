@@ -36,7 +36,7 @@ def predict(
     """Predict using a trained Prophet model"""
 
     if ticker not in stock_prediction_models:
-        return None
+        return []
 
     model = stock_prediction_models[ticker]
     future = TODAY + datetime.timedelta(days=days)
