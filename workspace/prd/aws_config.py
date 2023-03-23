@@ -14,8 +14,11 @@ from workspace.settings import ws_settings
 # -*- Production AWS Resources for running the AI App
 #
 
-# -*- Create ECS cluster for running containers
 launch_type = "FARGATE"
+api_key = f"{ws_settings.prd_key}-api"
+app_key = f"{ws_settings.prd_key}-app"
+
+# -*- Create ECS cluster for running containers
 prd_ecs_cluster = EcsCluster(
     name=f"{ws_settings.prd_key}-cluster",
     ecs_cluster_name=ws_settings.prd_key,
@@ -25,10 +28,10 @@ prd_ecs_cluster = EcsCluster(
 # -*- AI App Container running Streamlit on ECS
 app_container_port = 9095
 prd_app_container = EcsContainer(
-    name=ws_settings.ws_name,
+    name=app_key,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": app_container_port}],
-    command=["app start"],
+    command=["app start Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
     ],
@@ -43,10 +46,10 @@ prd_app_container = EcsContainer(
     },
 )
 
-# -*- App Task Definition
+# -*- AI App Task Definition
 prd_app_task_definition = EcsTaskDefinition(
-    name=f"{ws_settings.prd_key}-td",
-    family=ws_settings.prd_key,
+    name=f"{app_key}-td",
+    family=app_key,
     network_mode="awsvpc",
     cpu="512",
     memory="1024",
@@ -54,26 +57,29 @@ prd_app_task_definition = EcsTaskDefinition(
     requires_compatibilities=[launch_type],
 )
 
-# -*- App Service
+# -*- AI App Service
 prd_app_service = EcsService(
-    name=f"{ws_settings.prd_key}-service",
-    ecs_service_name=ws_settings.prd_key,
+    name=f"{app_key}-service",
     desired_count=1,
     launch_type=launch_type,
     cluster=prd_ecs_cluster,
     task_definition=prd_app_task_definition,
     network_configuration={
         "awsvpcConfiguration": {
-            # "subnets": ws_settings.subnet_ids,
+            "subnets": ws_settings.subnet_ids,
             # "securityGroups": ws_settings.security_groups,
             "assignPublicIp": "ENABLED",
         }
     },
+    # Force delete the service.
+    force_delete=True,
+    # Force a new deployment of the service on update.
+    force_new_deployment=True,
 )
 
-# -*- AwsResourceGroup
+# -*- AI App AwsResourceGroup
 app_aws_rg = AwsResourceGroup(
-    name=f"{ws_settings.ws_name}-app",
+    name=app_key,
     enabled=ws_settings.prd_app_enabled,
     ecs_clusters=[prd_ecs_cluster],
     ecs_task_definitions=[prd_app_task_definition],
@@ -83,7 +89,7 @@ app_aws_rg = AwsResourceGroup(
 # -*- Api Container running FastAPI on ECS
 api_container_port = 9090
 prd_api_container = EcsContainer(
-    name=f"{ws_settings.ws_name}-api",
+    name=api_key,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": api_container_port}],
     command=["api start"],
@@ -103,8 +109,8 @@ prd_api_container = EcsContainer(
 
 # -*- Api Task Definition
 prd_api_task_definition = EcsTaskDefinition(
-    name=f"{ws_settings.prd_key}-td",
-    family=ws_settings.prd_key,
+    name=f"{api_key}-td",
+    family=api_key,
     network_mode="awsvpc",
     cpu="512",
     memory="1024",
@@ -114,24 +120,23 @@ prd_api_task_definition = EcsTaskDefinition(
 
 # -*- Api Service
 prd_api_service = EcsService(
-    name=f"{ws_settings.prd_key}-service",
-    ecs_service_name=ws_settings.prd_key,
+    name=f"{api_key}-service",
     desired_count=1,
     launch_type=launch_type,
     cluster=prd_ecs_cluster,
     task_definition=prd_api_task_definition,
     network_configuration={
         "awsvpcConfiguration": {
-            # "subnets": ws_settings.subnet_ids,
+            "subnets": ws_settings.subnet_ids,
             # "securityGroups": ws_settings.security_groups,
             "assignPublicIp": "ENABLED",
         }
     },
 )
 
-# -*- AwsResourceGroup
+# -*- Api AwsResourceGroup
 api_aws_rg = AwsResourceGroup(
-    name=f"{ws_settings.ws_name}-api",
+    name=api_key,
     enabled=ws_settings.prd_api_enabled,
     ecs_clusters=[prd_ecs_cluster],
     ecs_task_definitions=[prd_api_task_definition],

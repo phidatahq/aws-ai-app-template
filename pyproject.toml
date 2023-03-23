@@ -70,9 +70,12 @@ exclude = [
 module = [
   "duckdb.*",
   "langchain.*",
+  "joblib.*",
   "pandas.*",
   "phidata.*",
+  "prophet.*",
   "setuptools.*",
   "streamlit_chat.*",
+  "yfinance.*",
 ]
 ignore_missing_imports = true
