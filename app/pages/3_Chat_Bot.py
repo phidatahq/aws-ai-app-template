@@ -15,10 +15,13 @@ def chatbot_sidebar():
     # Get OpenAI API key from environment variable
     OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
     # If not found, get it from user input
-    if OPENAI_API_KEY is None:
+    if OPENAI_API_KEY is None or OPENAI_API_KEY == "" or OPENAI_API_KEY == "sk-***":
         api_key = st.sidebar.text_input("OpenAI API key", value="sk-***", key="api_key")
         if api_key != "sk-***":
             OPENAI_API_KEY = api_key
+            st.session_state["OPENAI_API_KEY"] = OPENAI_API_KEY
+            os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
     # Store it in session state and environment variable
     if OPENAI_API_KEY is not None:
         st.session_state["OPENAI_API_KEY"] = OPENAI_API_KEY
@@ -28,6 +31,11 @@ def chatbot_sidebar():
     st.sidebar.markdown("## Chatbot Status")
     if "OPENAI_API_KEY" in st.session_state:
         st.sidebar.markdown("🔑  OpenAI API key set")
+
+    if st.sidebar.button("Reload Session"):
+        st.session_state.clear()
+        os.environ.pop("OPENAI_API_KEY", None)
+        st.experimental_rerun()
 
 
 def generate_response(messages: List[Dict[str, str]]) -> str:

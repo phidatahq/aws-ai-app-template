@@ -26,7 +26,7 @@ def querybot_sidebar():
     # Get OpenAI API key from environment variable
     OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
     # If not found, get it from user input
-    if OPENAI_API_KEY is None:
+    if OPENAI_API_KEY is None or OPENAI_API_KEY == "" or OPENAI_API_KEY == "sk-***":
         api_key = st.sidebar.text_input("OpenAI API key", value="sk-***", key="api_key")
         if api_key != "sk-***":
             OPENAI_API_KEY = api_key
@@ -83,6 +83,7 @@ def querybot_sidebar():
 
     if st.sidebar.button("Reload Session"):
         st.session_state.clear()
+        os.environ.pop("OPENAI_API_KEY", None)
         st.experimental_rerun()
 
 
