@@ -51,7 +51,7 @@ def predict(ticker: str = DEFAULT_TICKER, days: int = DEFAULT_DAYS_TO_PREDICT):
 
     dates = pd.date_range(
         start="2020-01-01",
-        end=future.strftime("%m/%d/%Y"),
+        end=future.strftime("%Y-%m-%d"),
     )
     df = pd.DataFrame({"ds": dates})
 
@@ -104,7 +104,7 @@ def create_main_page():
 
     model_trained = st.session_state.get("model_trained", False)
     if not model_trained:
-        st.write("🦆  Waiting for model to train")
+        st.write("🦆  Click train button")
         return
 
     model_path = st.session_state.get("model_path", None)
@@ -113,7 +113,7 @@ def create_main_page():
 
     prediction_result = st.session_state.get("prediction_result", None)
     if prediction_result is None:
-        st.write("🦆  Waiting for prediction")
+        st.write("🦆  Click predict button")
         return
 
     if prediction_result is not None:
