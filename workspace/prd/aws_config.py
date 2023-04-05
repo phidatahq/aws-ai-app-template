@@ -59,7 +59,6 @@ prd_app_container = EcsContainer(
     command=["app start Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
-        {"name": "PRINT_ENV_ON_LOAD", "value": "True"},
     ],
     log_configuration={
         "logDriver": "awslogs",
