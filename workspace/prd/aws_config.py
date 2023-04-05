@@ -5,6 +5,7 @@ from phidata.aws.resource.group import (
     EcsContainer,
     EcsService,
     EcsTaskDefinition,
+    S3Bucket,
 )
 
 from workspace.prd.docker_config import prd_app_image
@@ -14,15 +15,39 @@ from workspace.settings import ws_settings
 # -*- Production AWS Resources for running the AI App
 #
 
+# -*- Settings
 launch_type = "FARGATE"
 api_key = f"{ws_settings.prd_key}-api"
 app_key = f"{ws_settings.prd_key}-app"
+# Do not create the resource when running `phi ws up`
+skip_create: bool = False
+# Do not delete the resource when running `phi ws down`
+# Set True in production to skip deletion when running `phi ws down`
+skip_delete: bool = False
+# Wait for the resource to be created
+wait_for_create: bool = True
+# Wait for the resource to be deleted
+wait_for_delete: bool = True
+
+# -*- Define S3 bucket for dev data
+prd_data_s3_bucket = S3Bucket(
+    name=f"{ws_settings.prd_key}-data",
+    acl="private",
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
+)
 
 # -*- Create ECS cluster for running containers
 prd_ecs_cluster = EcsCluster(
     name=f"{ws_settings.prd_key}-cluster",
     ecs_cluster_name=ws_settings.prd_key,
     capacity_providers=[launch_type],
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- AI App Container running Streamlit on ECS
@@ -34,6 +59,7 @@ prd_app_container = EcsContainer(
     command=["app start Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
+        {"name": "PRINT_ENV_ON_LOAD", "value": "True"},
     ],
     log_configuration={
         "logDriver": "awslogs",
@@ -44,6 +70,10 @@ prd_app_container = EcsContainer(
             "awslogs-stream-prefix": "app",
         },
     },
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- AI App Task Definition
@@ -55,6 +85,10 @@ prd_app_task_definition = EcsTaskDefinition(
     memory="1024",
     containers=[prd_app_container],
     requires_compatibilities=[launch_type],
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- AI App Service
@@ -75,6 +109,10 @@ prd_app_service = EcsService(
     force_delete=True,
     # Force a new deployment of the service on update.
     force_new_deployment=True,
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- AI App AwsResourceGroup
@@ -105,6 +143,10 @@ prd_api_container = EcsContainer(
             "awslogs-stream-prefix": "api",
         },
     },
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- Api Task Definition
@@ -116,6 +158,10 @@ prd_api_task_definition = EcsTaskDefinition(
     memory="1024",
     containers=[prd_api_container],
     requires_compatibilities=[launch_type],
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- Api Service
@@ -136,6 +182,10 @@ prd_api_service = EcsService(
     force_delete=True,
     # Force a new deployment of the service on update.
     force_new_deployment=True,
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_create,
+    wait_for_deletion=wait_for_delete,
 )
 
 # -*- Api AwsResourceGroup

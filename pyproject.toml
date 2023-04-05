@@ -74,6 +74,7 @@ module = [
   "pandas.*",
   "phidata.*",
   "prophet.*",
+  "pyarrow.*",
   "setuptools.*",
   "streamlit_chat.*",
   "yfinance.*",
