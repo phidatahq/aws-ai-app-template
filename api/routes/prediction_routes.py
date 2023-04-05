@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, timedelta
 from pathlib import Path
 from typing import List, Dict
 
@@ -7,6 +7,7 @@ import pandas as pd
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from api.routes.training_routes import train
 from api.routes.endpoints import endpoints
 from workspace.settings import ws_settings
 
@@ -17,7 +18,6 @@ from workspace.settings import ws_settings
 prediction_router = APIRouter(prefix=endpoints.PREDICT, tags=["predict"])
 
 # -*- Default values for predictions
-TODAY = datetime.date.today()
 DEFAULT_TICKER: str = "GOOG"
 DEFAULT_DAYS_TO_PREDICT: int = 21
 MODELS_DIR: Path = ws_settings.ws_root.joinpath("models")
@@ -35,15 +35,21 @@ def predict(
 ) -> List[Dict]:
     """Predict using a trained Prophet model"""
 
-    if ticker not in stock_prediction_models:
-        return []
+    model_file = MODELS_DIR.joinpath(f"{ticker}_prediction.joblib")
+    if not model_file.exists():
+        print(f"Training model: {ticker}")
+        train(ticker)
 
-    model = stock_prediction_models[ticker]
-    future = TODAY + datetime.timedelta(days=days)
+    if not model_file.exists():
+        raise Exception(f"Model not found: {ticker}")
 
+    model = joblib.load(model_file)
+    print(f"Loaded model: {ticker}")
+
+    end_date = date.today() + timedelta(days=days)
     dates = pd.date_range(
         start="2020-01-01",
-        end=future.strftime("%m/%d/%Y"),
+        end=end_date.strftime("%Y-%m-%d"),
     )
     df = pd.DataFrame({"ds": dates})
 
@@ -63,6 +69,7 @@ def predict(
     return prediction_result
 
 
+# -*- Pydantic models for prediction request and response
 class PredictionRequest(BaseModel):
     ticker: str = DEFAULT_TICKER
     days: int = DEFAULT_DAYS_TO_PREDICT
@@ -74,7 +81,7 @@ class PredictionResponse(BaseModel):
     result: list
 
 
-@prediction_router.post("/stock", response_model=PredictionResponse)
+@prediction_router.post("/ticker", response_model=PredictionResponse)
 def predict_stock_price(prediction_request: PredictionRequest):
     prediction_result = predict(
         ticker=prediction_request.ticker,
