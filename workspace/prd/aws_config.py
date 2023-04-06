@@ -56,7 +56,7 @@ prd_app_container = EcsContainer(
     name=app_key,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": app_container_port}],
-    command=["app start Home"],
+    command=["app", "start", "Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
     ],
@@ -129,7 +129,7 @@ prd_api_container = EcsContainer(
     name=api_key,
     image=prd_app_image.get_image_str(),
     port_mappings=[{"containerPort": api_container_port}],
-    command=["api start"],
+    command=["api", "start"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
     ],
