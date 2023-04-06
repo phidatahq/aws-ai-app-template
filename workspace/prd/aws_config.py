@@ -12,7 +12,7 @@ from workspace.prd.docker_config import prd_app_image
 from workspace.settings import ws_settings
 
 #
-# -*- Production AWS Resources for running the AI App
+# -*- Production AWS Resources
 #
 
 # -*- Settings
@@ -97,6 +97,13 @@ prd_app_service = EcsService(
     launch_type=launch_type,
     cluster=prd_ecs_cluster,
     task_definition=prd_app_task_definition,
+    # load_balancers=[
+    #     {
+    #         "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:386435111151:targetgroup/backend-prd-api-tg/f43488b11bcb886f",  # noqa: E501
+    #         "containerName": prd_app_container.name,
+    #         "containerPort": app_container_port,
+    #     }
+    # ],
     network_configuration={
         "awsvpcConfiguration": {
             "subnets": ws_settings.subnet_ids,
@@ -170,6 +177,13 @@ prd_api_service = EcsService(
     launch_type=launch_type,
     cluster=prd_ecs_cluster,
     task_definition=prd_api_task_definition,
+    # load_balancers=[
+    #     {
+    #         "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:386435111151:targetgroup/backend-prd-api-tg/f43488b11bcb886f",  # noqa: E501
+    #         "containerName": prd_api_container.name,
+    #         "containerPort": api_container_port,
+    #     }
+    # ],
     network_configuration={
         "awsvpcConfiguration": {
             "subnets": ws_settings.subnet_ids,
