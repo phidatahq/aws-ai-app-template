@@ -25,7 +25,7 @@ dev_app_image = DockerImage(
 )
 
 # -*- Streamlit running on port 9095
-dev_app_server = Streamlit(
+dev_streamlit = Streamlit(
     name=f"{ws_settings.ws_name}-app",
     enabled=ws_settings.dev_app_enabled,
     image=dev_app_image,
@@ -39,7 +39,7 @@ dev_app_server = Streamlit(
 )
 
 # -*- FastApi running on port 9090
-dev_api_server = FastApi(
+dev_fastapi = FastApi(
     name=f"{ws_settings.ws_name}-api",
     enabled=ws_settings.dev_api_enabled,
     image=dev_app_image,
@@ -58,5 +58,5 @@ dev_api_server = FastApi(
 dev_docker_config = DockerConfig(
     env=ws_settings.dev_env,
     network=ws_settings.ws_name,
-    apps=[dev_app_server, dev_api_server, dev_jupyter_lab],
+    apps=[dev_streamlit, dev_fastapi, dev_jupyter_lab],
 )

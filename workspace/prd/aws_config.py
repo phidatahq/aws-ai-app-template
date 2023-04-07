@@ -49,7 +49,7 @@ prd_ecs_cluster = EcsCluster(
 )
 
 # -*- Streamlit running on ECS
-prd_app_server = Streamlit(
+prd_streamlit = Streamlit(
     name=app_key,
     enabled=ws_settings.prd_app_enabled,
     image=prd_app_image,
@@ -65,7 +65,7 @@ prd_app_server = Streamlit(
 )
 
 # -*- FastApi running on ECS
-prd_api_server = FastApi(
+prd_fastapi = FastApi(
     name=api_key,
     enabled=ws_settings.prd_api_enabled,
     image=prd_app_image,
@@ -85,5 +85,5 @@ prd_api_server = FastApi(
 #
 prd_aws_config = AwsConfig(
     env=ws_settings.prd_env,
-    apps=[prd_app_server, prd_api_server],
+    apps=[prd_streamlit, prd_fastapi],
 )
