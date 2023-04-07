@@ -23,9 +23,9 @@ skip_create: bool = False
 # Set True in production to skip deletion when running `phi ws down`
 skip_delete: bool = False
 # Wait for the resource to be created
-wait_for_creation: bool = True
+wait_for_creation: bool = False
 # Wait for the resource to be deleted
-wait_for_deletion: bool = True
+wait_for_deletion: bool = False
 
 # -*- Define S3 bucket for prd data
 prd_data_s3_bucket = S3Bucket(
@@ -62,6 +62,10 @@ prd_streamlit = StreamlitApp(
     use_cache=ws_settings.use_cache,
     # Read secrets from a file
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/app_secrets.yml"),
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_creation,
+    wait_for_deletion=wait_for_deletion,
 )
 
 # -*- FastApiServer running on ECS
@@ -78,6 +82,10 @@ prd_fastapi = FastApiServer(
     use_cache=ws_settings.use_cache,
     # Read secrets from a file
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/api_secrets.yml"),
+    skip_create=skip_create,
+    skip_delete=skip_delete,
+    wait_for_creation=wait_for_creation,
+    wait_for_deletion=wait_for_deletion,
 )
 
 #
