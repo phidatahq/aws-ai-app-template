@@ -3,7 +3,6 @@ from os import getenv
 from phidata.app.server import AppServer, ApiServer
 from phidata.docker.config import DockerConfig, DockerImage
 
-from workspace.dev.postgres import dev_postgres_app
 from workspace.dev.jupyter.docker_resources import dev_jupyter_lab
 from workspace.settings import ws_settings
 
@@ -56,5 +55,5 @@ dev_api_server = ApiServer(
 dev_docker_config = DockerConfig(
     env=ws_settings.dev_env,
     network=ws_settings.ws_name,
-    apps=[dev_app_server, dev_api_server, dev_jupyter_lab, dev_postgres_app],
+    apps=[dev_app_server, dev_api_server, dev_jupyter_lab],
 )
