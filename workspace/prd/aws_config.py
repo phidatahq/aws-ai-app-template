@@ -1,9 +1,10 @@
 from os import getenv
 
+from phidata.app.fastapi import FastApi
+from phidata.app.streamlit import Streamlit
 from phidata.aws.config import AwsConfig
 from phidata.aws.resource.ecs.cluster import EcsCluster
 from phidata.aws.resource.s3.bucket import S3Bucket
-from phidata.app.server import StreamlitApp, FastApi
 
 from workspace.prd.docker_config import prd_app_image
 from workspace.settings import ws_settings
@@ -47,8 +48,8 @@ prd_ecs_cluster = EcsCluster(
     wait_for_deletion=wait_for_deletion,
 )
 
-# -*- Streamlit App running on ECS
-prd_app_server = StreamlitApp(
+# -*- Streamlit running on ECS
+prd_app_server = Streamlit(
     name=app_key,
     enabled=ws_settings.prd_app_enabled,
     image=prd_app_image,
