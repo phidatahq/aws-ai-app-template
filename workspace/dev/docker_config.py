@@ -1,7 +1,7 @@
 from os import getenv
 
-from phidata.app.fastapi import FastApi
-from phidata.app.streamlit import Streamlit
+from phidata.app.fastapi import FastApiServer
+from phidata.app.streamlit import StreamlitApp
 from phidata.docker.config import DockerConfig, DockerImage
 
 from workspace.dev.jupyter.lab import dev_jupyter_lab
@@ -24,8 +24,8 @@ dev_app_image = DockerImage(
     use_cache=ws_settings.use_cache,
 )
 
-# -*- Streamlit running on port 9095
-dev_streamlit = Streamlit(
+# -*- StreamlitApp running on port 9095
+dev_streamlit = StreamlitApp(
     name=f"{ws_settings.ws_name}-app",
     enabled=ws_settings.dev_app_enabled,
     image=dev_app_image,
@@ -38,8 +38,8 @@ dev_streamlit = Streamlit(
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/app_secrets.yml"),
 )
 
-# -*- FastApi running on port 9090
-dev_fastapi = FastApi(
+# -*- FastApiServer running on port 9090
+dev_fastapi = FastApiServer(
     name=f"{ws_settings.ws_name}-api",
     enabled=ws_settings.dev_api_enabled,
     image=dev_app_image,
