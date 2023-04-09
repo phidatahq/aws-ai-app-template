@@ -1,4 +1,4 @@
-## AI App Server
+## AI App
 
 This repo contains the code for running an AI App in 2 environments:
 

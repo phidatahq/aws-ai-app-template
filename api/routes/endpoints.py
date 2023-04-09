@@ -7,6 +7,7 @@ class ApiEndpoints:
     HEALTH: str = "/health"
     TRAIN: str = "/train"
     PREDICT: str = "/predict"
+    DUCKGPT: str = "/duckgpt"
 
 
 endpoints = ApiEndpoints()

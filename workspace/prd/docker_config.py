@@ -10,7 +10,7 @@ from workspace.settings import ws_settings
 prd_app_image = DockerImage(
     name=f"{ws_settings.image_repo}/{ws_settings.ws_name}",
     tag=ws_settings.prd_env,
-    enabled=ws_settings.prd_app_enabled,
+    enabled=(ws_settings.build_images and ws_settings.prd_app_enabled),
     path=str(ws_settings.ws_root),
     platform="linux/amd64",
     pull=ws_settings.force_pull_images,
